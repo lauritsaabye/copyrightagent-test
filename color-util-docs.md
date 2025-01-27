@@ -29,7 +29,7 @@ To run the CLI, use the following command structure:
 This command converts a list of colors into their HEX and/or RGB representations. 
 You can specify whether you want the **HEX** representation using `-h` or `--hex` and/or 
 the **RGB** representation using `-r` or `--rgb`. _You can even get both representations at once!_ 
-If no flags are provided, the convert command will simply return the inputted colors. 
+If no flags are provided, the convert command will fail. 
 
 The convert command requires you to specify the computational method of the color conversion using one of the following subcommands.
 
