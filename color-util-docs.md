@@ -71,9 +71,9 @@ _Use the flags stated in the parent command: `-h` and `-r`._
 
 **Example:**
 
-Convert red and blue colors to RGB in parallel:
+Convert red and blue colors to RGB and HEX in parallel:
 
-`color-util convert par red blue --RGB --hex`
+`color-util convert par red blue --rgb --hex`
 
 Output:
 

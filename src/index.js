@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 const { Command } = require('commander');
 
-const { getColor } = require('./apiMock');
-const { convertColorObj } = require('./helpers');
+const {
+  convertAndOutputColorsInSeries,
+  convertAndOutputColorsInParallel,
+} = require('./lib/convert');
 
 const program = new Command();
 program
@@ -15,7 +17,7 @@ const convert = program
   .description(
     'Converts a list of colors into a list of corresponding hex and/or rgb representation'
   )
-  .option('-r, --RGB', 'Include RGB representation')
+  .option('-r, --rgb', 'Include rgb representation')
   .option('-h, --hex', 'Include hex representation');
 
 convert
@@ -23,11 +25,7 @@ convert
   .description('Converts colors sequentially')
   .argument('<colors...>', 'The list of colors')
   .action(async (colors) => {
-    for (const color of colors) {
-      const colorObj = await getColor(color);
-      const colorOutput = convertColorObj(colorObj, convert.opts());
-      console.log(colorOutput);
-    }
+    await convertAndOutputColorsInSeries(colors, convert.opts());
   });
 
 convert
@@ -35,13 +33,7 @@ convert
   .description('Converts colors in parallel')
   .argument('<colors...>', 'The list of colors')
   .action(async (colors) => {
-    const colorsOutput = await Promise.all(
-      colors.map(async (color) => {
-        const colorObj = await getColor(color);
-        return convertColorObj(colorObj, convert.opts());
-      })
-    );
-    console.log(colorsOutput);
+    await convertAndOutputColorsInParallel(colors, convert.opts());
   });
 
 program.parse();
