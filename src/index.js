@@ -1,43 +1,47 @@
+#!/usr/bin/env node
+const { Command } = require('commander');
+
 const { getColor } = require('./apiMock');
+const { convertColorObj } = require('./helpers');
 
-const { Green, Blue, Red } = require('./classes');
+const program = new Command();
+program
+  .name('color-util')
+  .description('Your one stop CLI for all things related to colors')
+  .version('1.0.0');
 
-async function getColors(green, blue, red, order, callback) {
-	const colors = [];
-	if (green === 'true'){
-		green = new Green();
-		colors[order.indexOf(green.name)] = getColor(green.name);
-	}
-	if (blue === 'true') {
-		blue = new Blue()
-		colors[order.indexOf(blue.name)] = getColor(blue.name);
-	}
-	if (red === 'true') {
-		red = new Red();
-		colors[order.indexOf(red.name)] = getColor(red.name);
-	}
-	callback(colors);
-	return colors;
-}
+const convert = program
+  .command('convert')
+  .description(
+    'Converts a list of colors into a list of corresponding hex and/or rgb representation'
+  )
+  .option('-r, --RGB', 'Include RGB representation')
+  .option('-h, --hex', 'Enable hex representation');
 
-function colors() {
-	console.log("DEBUG: ", process.argv)
-	let green = process.argv[2];;
-	let blue = process.argv[3]
-	let red = process.argv[4];
-	const colorOrder = process.argv[5]
-	getColors(green, blue, red, JSON.parse(colorOrder), async function (colors) {
-  	colors = await Promise.all(colors)
-		// console.log(colors)
-		var hexColors = []
-		colors.forEach(color => color ? hexColors.push(color.HEX) : null)
-		console.log(hexColors);
-	});
-}
+convert
+  .command('seq')
+  .description('Converts colors sequentially')
+  .argument('<colors...>', 'The list of colors')
+  .action(async (colors) => {
+    for (const color of colors) {
+      const colorObj = await getColor(color);
+      const colorOutput = convertColorObj(colorObj, convert.opts());
+      console.log(colorOutput);
+    }
+  });
 
-colors()
+convert
+  .command('par')
+  .description('Converts colors in parallel')
+  .argument('<colors...>', 'The list of colors')
+  .action(async (colors) => {
+    const colorsOutput = await Promise.all(
+      colors.map(async (color) => {
+        const colorObj = await getColor(color);
+        return convertColorObj(colorObj, convert.opts());
+      })
+    );
+    console.log(colorsOutput);
+  });
 
-/*
-To run application:
-node ~/code-challenge/src/index.js true false true '["green","blue", "red"]'
-*/
+program.parse();
