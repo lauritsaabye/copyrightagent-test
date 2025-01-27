@@ -29,7 +29,7 @@ To run the CLI, use the following command structure:
 This command converts a list of colors into their HEX and/or RGB representations. 
 You can specify whether you want the **HEX** representation using `-h` or `--hex` and/or 
 the **RGB** representation using `-r` or `--rgb`. _You can even get both representations at once!_ 
-If no flags are provided, the convert command will return
+If no flags are provided, the convert command will simply return the inputted colors. 
 
 The convert command requires you to specify the computational method of the color conversion using one of the following subcommands.
 
@@ -38,7 +38,7 @@ The convert command requires you to specify the computational method of the colo
 ---
 `convert seq`
 
-This subcommand converts colors sequentially, in the order they appear in the inputted color list. 
+This subcommand converts colors sequentially, in the order they appear in the inputted list of colors. 
 Each color will be converted and outputted to `stdout` before moving to the next color in the list. 
 _Use the flags stated in the parent command: `-h` and `-r`._
 
@@ -55,14 +55,14 @@ Convert red and blue colors to HEX sequentially:
 Output:
 
 ```
-{"name": "red","hex": "#FF0000"}
-{"name": "blue","hex": "#0000FF"}
+{"name": "red","hex": "#ff0000"}
+{"name": "blue","hex": "#0000ff"}
 ```
 ---
 `convert par`
 
 This subcommand converts colors in parallel. All colors will be converted before the entire list is written to `stdout`. 
-The order of the inputted color list is retained in the `stdout` output.
+The order of the inputted list of colors is retained in the `stdout` output.
 _Use the flags stated in the parent command: `-h` and `-r`._
 
 **Syntax:**

@@ -16,7 +16,7 @@ const convert = program
     'Converts a list of colors into a list of corresponding hex and/or rgb representation'
   )
   .option('-r, --RGB', 'Include RGB representation')
-  .option('-h, --hex', 'Enable hex representation');
+  .option('-h, --hex', 'Include hex representation');
 
 convert
   .command('seq')

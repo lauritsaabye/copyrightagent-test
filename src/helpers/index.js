@@ -6,10 +6,10 @@
  * @returns {Object} The converted color object.
  *
  * @example
- * const colorObj = { name: 'red', HEX: '#FF0000', RGB: 'rgb(255, 0, 0)' };
+ * const colorObj = { name: 'red', HEX: '#ff0000', RGB: 'rgb(255, 0, 0)' };
  * const options = { hex: true, RGB: true };
  * const result = convertColorObj(colorObj, options);
- * console.log(result); // { name: 'red', hex: '#FF0000', rgb: 'rgb(255, 0, 0)' }
+ * console.log(result); // { name: 'red', hex: '#ff0000', rgb: 'rgb(255, 0, 0)' }
  */
 const convertColorObj = (colorObj, options) => ({
   name: colorObj.name,
